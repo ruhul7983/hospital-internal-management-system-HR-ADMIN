@@ -56,3 +56,35 @@ Route::get("/dashboard/employees/edit", function () {
 Route::get("/dashboard/duty-management", function () {
     return view("admin.pages.duty-management.index");
 })->name("admin.pages.duty-management.index");
+
+
+// Salary Management 
+// Head
+Route::get("/dashboard/salary/head", function () {
+    return view("admin.pages.salary.head.index");
+})->name("admin.salary.head.index");
+Route::get("/dashboard/salary/head/create", function () {
+    return view("admin.pages.salary.head.create");
+})->name("admin.salary.head.create");
+Route::get("/dashboard/salary/head/edit", function () {
+    return view("admin.pages.salary.head.edit");
+})->name("admin.salary.head.edit");
+
+
+// Salary Management 
+// Setup
+Route::get("/dashboard/salary/setup", function () {
+    return view("admin.pages.salary.setup.index");
+})->name("admin.salary.setup.index");
+// Route::get("/dashboard/salary/head/create", function () {
+//     return view("admin.pages.salary.head.create");
+// })->name("admin.salary.head.create");
+// Route::get("/dashboard/salary/head/edit", function () {
+//     return view("admin.pages.salary.head.edit");
+// })->name("admin.salary.head.edit");
+
+// Salary Management 
+// Setup
+Route::get("/dashboard/salary/generate", function () {
+    return view("admin.pages.salary.generate.index");
+})->name("admin.salary.setup.generate");

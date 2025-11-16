@@ -21,13 +21,13 @@
                 </button>
                 <div id="group-setup" class="nav-panel hidden pl-11 pr-3 mt-1 space-y-1">
                     <a href={{ route("admin.pages.setup.shifts.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Shifts</a>
-                    <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Departments</a>
+                    <a href={{ route("admin.pages.setup.departments.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Departments</a>
                     <a href={{ route("admin.pages.setup.overtimes.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Overtimes</a>
                 </div>
             </div>
 
             {{-- Appointments (Nested) --}}
-            <div class="nav-group">
+            {{-- <div class="nav-group">
                 <button class="nav-trigger w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
                         aria-expanded="false" aria-controls="group-appointments">
                     <span class="flex items-center gap-3">
@@ -41,7 +41,7 @@
                     <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Create Appointment</a>
                     <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Pending Approvals</a>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- Employees --}}
             <a href={{ route("admin.pages.employees.index") }} class="nav-item group flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
@@ -54,10 +54,10 @@
                 <span>Duty Management</span>
             </a>
             {{-- Billing --}}
-            <a href="#" class="nav-item group flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
+            {{-- <a href="#" class="nav-item group flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
                 <i class="fa-solid fa-file-invoice-dollar text-gray-400 group-hover:text-gray-600"></i>
                 <span>Billing</span>
-            </a>
+            </a> --}}
 
             {{-- Salaries (Nested) --}}
             <div class="nav-group">
@@ -70,9 +70,9 @@
                     <i class="chevron fa-solid fa-chevron-down text-[12px] transition-transform"></i>
                 </button>
                 <div id="group-settings" class="nav-panel hidden pl-11 pr-3 mt-1 space-y-1">
-                    <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Salary Head</a>
-                    <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Setup Salary</a>
-                    <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Generate Salary</a>
+                    <a href={{ route("admin.salary.head.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Salary Head</a>
+                    <a href={{ route("admin.salary.setup.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Setup Salary</a>
+                    <a href={{ route("admin.salary.setup.generate") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Generate Salary</a>
                 </div>
             </div>
 
