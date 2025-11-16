@@ -99,3 +99,33 @@ php artisan storage:link
 
 # 9. Start development server
 php artisan serve
+
+
+
+
+
+
+
+# Output (Screenshots & Demo)
+Demo will add soon.
+#
+# Live Demo (if hosted): https:// (Coming Soon)
+
+
+
+
+# Acknowledgement
+#
+# We express our sincere gratitude to our project supervisor and faculty members 
+# for their guidance throughout the development of this system.
+#
+# Special thanks to:
+#   • Course Instructor: Md. Mezbaul Islam Zion (Lecturer)
+#   • Institution: Daffodil International University
+#
+# This project was developed as part of the **Web Engineering Lab** 
+#
+# GitHub Repository: 
+# https://github.com/ruhul7983/hospital-internal-management-system-HR-ADMIN
+#
+# Prepared in October 2025 | Version 1.0 (MVP)
