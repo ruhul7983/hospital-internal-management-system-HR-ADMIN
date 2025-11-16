@@ -1,61 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hospital Internal Management System (HIMS) - MVP
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**A web-based internal management system for hospitals to handle staff scheduling, attendance, leave, and payroll.**
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Short Description
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The **Hospital Internal Management System (HIMS)** is a Laravel-based web application designed to streamline hospital staff management. This MVP version supports:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Role-based user management (Admin, Doctor, Nurse, Staff)
+- Shift scheduling & roster creation
+- Web-based clock-in/clock-out attendance tracking
+- Leave application & approval workflow
+- Automated payroll calculation (hourly & monthly)
+- Payslip generation (PDF) and report exports (CSV/PDF)
 
-## Learning Laravel
+Built for **academic demonstration**, it serves as a scalable foundation for future production deployment with biometric integration.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Task Distribution & SRS Link
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Task Distribution
 
-## Laravel Sponsors
+| Name                  | ID                  | Tasks                  |
+|-----------------------|---------------------|------------------------|
+| Md Ruhul Amin         | 242220005101245     | FR1, FR3, FR10         |
+| Md Al Fuyad           | 242220005101002     | FR6, FR7               |
+| Md Kamrul Islam       | 242220005101155     | FR4, FR5               |
+| Prokash Bonik         | 242220005101242     | FR2, FR12              |
+| Sudipta Paul          | 242220005101167     | FR10, FR11             |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**SRS Document & Task Sheet**:  
+[Google Sheet - Task Distribution](https://docs.google.com/spreadsheets/d/1TGAcRtqZW-nhRRO0vGzKdbSXwM2B_uw4DRUJ8t-5YWo/edit?usp=sharing)
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Feature List
 
-## Contributing
+| Feature ID | Feature Name               | Description |
+|-----------|----------------------------|-----------|
+| FR1       | Login                      | Secure user authentication |
+| FR2       | Role-Based Access          | Restricts features by user role |
+| FR3       | Shift Assignment           | Admin assigns daily/monthly shifts |
+| FR4       | Clock In                   | Record work start time |
+| FR5       | Clock Out                  | Record work end time |
+| FR6       | Attendance Record          | Auto-calculate daily worked hours |
+| FR7       | Leave Application          | Submit leave requests |
+| FR8       | Leave Approval             | Admin approves/rejects leaves |
+| FR9       | Payroll Calculation        | Auto-compute salary (hourly/monthly) |
+| FR10      | Payslip Generation         | Generate downloadable PDF payslips |
+| FR11      | Reports                    | Export attendance & payroll in CSV/PDF |
+| FR12      | Setup                      | Configure shifts, departments, overtime |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Installation Guide (Laravel)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Prerequisites
+- PHP >= 8.1
+- Composer
+- MySQL or MariaDB
+- Node.js & NPM
+- Git
 
-## Security Vulnerabilities
+### Step-by-Step Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# 1. Clone the repository
+git clone https://github.com/ruhul7983/hospital-internal-management-system-HR-ADMIN.git
+cd hospital-internal-management-system-HR-ADMIN
 
-## License
+# 2. Install PHP dependencies
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 3. Install frontend assets
+npm install && npm run build
+
+# 4. Copy environment file
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Configure database in .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=hims_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+# 7. Run migrations & seed initial data
+php artisan migrate --seed
+
+# 8. (Optional) Create symbolic link for storage
+php artisan storage:link
+
+# 9. Start development server
+php artisan serve
