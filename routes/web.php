@@ -12,4 +12,6 @@ Route::get('/dashboard', function () {
 })->name('admin.dashboard');
 
 
+require __DIR__.'/super-admin.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/user.php';

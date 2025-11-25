@@ -6,6 +6,17 @@ Route::get('/dashboard', function () {
 })->name('admin.dashboard');
 
 // Shifts Management Routes
+Route::get("/dashboard/hospital", function () {
+    return view("admin.pages.setup.hospital.index");
+})->name("admin.pages.setup.hospital.index");
+Route::get("/dashboard/hospital/create", function () {
+    return view("admin.pages.setup.hospital.create");
+})->name("admin.pages.setup.hospital.create");
+Route::get("/dashboard/hospital/edit", function () {
+    return view("admin.pages.setup.hospital.edit");
+})->name("admin.pages.setup.hospital.edit");
+
+// Shifts Management Routes
 Route::get("/dashboard/shifts", function () {
     return view("admin.pages.setup.shifts.index");
 })->name("admin.pages.setup.shifts.index");
@@ -56,6 +67,10 @@ Route::get("/dashboard/employees/edit", function () {
 Route::get("/dashboard/duty-management", function () {
     return view("admin.pages.duty-management.index");
 })->name("admin.pages.duty-management.index");
+
+Route::get("/dashboard/leave-management", function () {
+    return view("admin.pages.leave-management.index");
+})->name("admin.pages.leave-management.index");
 
 
 // Salary Management 
