@@ -18,6 +18,8 @@ The **Hospital Internal Management System (HIMS)** is a Laravel-based web applic
 Built for **academic demonstration**, it serves as a scalable foundation for future production deployment with biometric integration.
 
 ---
+output:
+The Hospital Internal Management System (HIMS) MVP is a Laravel-based web application designed to streamline hospital staff management by providing role-based access for Admins, Doctors, Nurses, and other staff. It outputs a fully functional system where admins can manage users, assign shifts via a calendar-based roster, track attendance with web-based clock-in/out, and handle leave requests with approval workflows. Payroll is automatically calculated based on base salary, overtime, and deductions, and generates downloadable PDF payslips along with summary reports that can be exported as CSV or PDF. Staff members can view their schedules, submit leave, clock in/out, and access their individual payslips. The frontend presents clean, responsive dashboards, tables, and interactive pages, providing a complete MVP experience for demonstrating hospital internal management operations.
 
 ## Task Distribution & SRS Link
 
@@ -63,6 +65,9 @@ Built for **academic demonstration**, it serves as a scalable foundation for fut
 - MySQL or MariaDB
 - Node.js & NPM
 - Git
+
+  
+
 
 ### Step-by-Step Setup
 
@@ -129,3 +134,5 @@ Demo will add soon.
 # https://github.com/ruhul7983/hospital-internal-management-system-HR-ADMIN
 #
 # Prepared in October 2025 | Version 1.0 (MVP)
+
+
