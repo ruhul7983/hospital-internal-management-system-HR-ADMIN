@@ -6,8 +6,14 @@
     <title>Hospital Internal Management System - Payslip</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+    <!-- Optional Dynamic Greeting -->
+    <div id="greeting-banner"></div>
+
     <div class="container">
+
         <h2>Hospital Internal Management System</h2>
         <h4>Payslip for <span id="month">{{ $payroll->month }}</span></h4>
 
@@ -25,22 +31,42 @@
                     <th>Deductions</th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr>
                     <td>
-                        Base Salary: <span id="baseSalary">{{ $payroll->employee->base_salary }}</span> <br>
-                        Overtime: <span id="overtime">{{ $payroll->overtime_hours * 200 }}</span>
+                        Base Salary:
+                        <span id="baseSalary">{{ $payroll->employee->base_salary }}</span> <br>
+
+                        Overtime:
+                        <span id="overtime">
+                            {{ $payroll->overtime_hours * 200 }}
+                        </span>
                     </td>
+
                     <td>
-                        Deductions: <span id="deductions">{{ $payroll->deductions }}</span>
+                        Deductions:
+                        <span id="deductions">{{ $payroll->deductions }}</span>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <h3>Net Salary: <span id="netSalary">{{ $payroll->net_salary }}</span></h3>
+        <div class="total-amount">
+            Net Salary:
+            <span id="netSalary">{{ $payroll->net_salary }}</span>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
+
+    <script>
+        // Attach dynamic greeting to banner (optional)
+        if (typeof displayGreeting === "function") {
+            displayGreeting("greeting-banner");
+        }
+    </script>
+
 </body>
 </html>
