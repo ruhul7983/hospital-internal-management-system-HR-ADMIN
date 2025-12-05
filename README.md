@@ -85,7 +85,7 @@ npm install && npm run build
 # 4. Copy environment file
 cp .env.example .env
 
-# 5. Generate application key
+# 5. Generate an application key
 php artisan key:generate
 
 # 6. Configure database in .env

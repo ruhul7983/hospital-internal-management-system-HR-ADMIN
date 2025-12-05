@@ -1,52 +1,126 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+/* RESET */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    background-color: #fff;
-    padding: 30px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    border-radius: 10px;
+/* BODY */
+body {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: #eef3f8;
+    padding: 50px 15px;
+    color: #2d3436;
 }
 
-h2, h4 {
+/* GREETING BANNER */
+.greeting-banner {
     text-align: center;
-    margin: 5px 0;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #1a73e8;
 }
 
-.employee-info p {
+/* CARD */
+.card {
+    max-width: 900px;
+    margin: auto;
+    background: #ffffff;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e8e8e8;
+}
+
+/* HEADER */
+.header h1 {
+    text-align: center;
+    color: #1a73e8;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    margin-top: 6px;
+    font-size: 17px;
+    color: #555;
+}
+
+/* EMPLOYEE INFO */
+.employee-section {
+    margin-top: 30px;
+    background: #f9fafc;
+    padding: 20px 25px;
+    border-radius: 12px;
+    border: 1px solid #e2e6eb;
+}
+
+.employee-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
     font-size: 16px;
-    margin: 5px 0;
 }
 
-hr {
-    margin: 20px 0;
-    border: 1px solid #ccc;
+.label {
+    color: #555;
+    font-weight: 500;
 }
 
-.payslip-table {
+/* TABLE */
+.table-container {
+    margin-top: 30px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #e2e6eb;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-.payslip-table th, .payslip-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
+table th {
+    background: #f4f7fb;
+    padding: 14px;
     text-align: left;
+    font-weight: 700;
+    color: #333;
+    font-size: 16px;
 }
 
-.payslip-table th {
-    background-color: #f2f2f2;
+table td {
+    padding: 18px;
+    font-size: 15px;
+    vertical-align: top;
 }
 
-h3 {
+.line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* NET SALARY */
+.net-section {
+    margin-top: 30px;
     text-align: right;
-    color: #2e86de;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+.net-amount {
+    font-size: 26px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* PRINT STYLING */
+@media print {
+    body { background: #fff; padding: 0; }
+    .card { box-shadow: none; border: none; }
 }
