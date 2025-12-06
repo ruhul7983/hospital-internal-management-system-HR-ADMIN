@@ -11,6 +11,7 @@ body {
     background: #eef3f8;
     padding: 50px 15px;
     color: #2d3436;
+    line-height: 1.5;
 }
 
 /* GREETING BANNER */
@@ -18,109 +19,180 @@ body {
     text-align: center;
     font-size: 17px;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #1a73e8;
 }
 
-/* CARD */
+/* CARD (MAIN WRAPPER) */
 .card {
     max-width: 900px;
     margin: auto;
     background: #ffffff;
     padding: 45px;
-    border-radius: 16px;
-    box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+    border: 1px solid #e5eaf0;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
 }
 
 /* HEADER */
-.header h1 {
+.header {
     text-align: center;
-    color: #1a73e8;
-    font-size: 28px;
+    margin-bottom: 35px;
+}
+
+.title {
+    font-size: 30px;
     font-weight: 700;
+    color: #1a73e8;
 }
 
 .subtitle {
-    text-align: center;
-    margin-top: 6px;
     font-size: 17px;
+    font-weight: 500;
     color: #555;
+    margin-top: 5px;
+}
+
+/* SECTION TITLES */
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2d3d;
+    margin-bottom: 15px;
 }
 
 /* EMPLOYEE INFO */
-.employee-section {
-    margin-top: 30px;
+.employee-info {
+    margin-top: 25px;
+    padding: 22px 25px;
     background: #f9fafc;
-    padding: 20px 25px;
-    border-radius: 12px;
-    border: 1px solid #e2e6eb;
+    border: 1px solid #e0e6ed;
+    border-radius: 14px;
 }
 
-.employee-row {
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 25px;
+}
+
+.info-item {
     display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 16px;
+    flex-direction: column;
 }
 
 .label {
-    color: #555;
+    font-size: 14px;
+    color: #6b7c93;
     font-weight: 500;
 }
 
-/* TABLE */
-.table-container {
-    margin-top: 30px;
-    overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid #e2e6eb;
+.value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3436;
 }
 
-table {
+/* SALARY TABLE */
+.salary-section {
+    margin-top: 35px;
+}
+
+.table-wrapper {
+    margin-top: 15px;
+    border: 1px solid #e0e6ed;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.salary-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-table th {
+.salary-table th {
     background: #f4f7fb;
+    font-size: 16px;
     padding: 14px;
     text-align: left;
     font-weight: 700;
-    color: #333;
-    font-size: 16px;
+    color: #2b3a4a;
 }
 
-table td {
+.salary-table td {
     padding: 18px;
-    font-size: 15px;
     vertical-align: top;
+    font-size: 15px;
 }
 
 .line {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 15px;
+    color: #2d3436;
+}
+
+.line strong {
+    font-weight: 700;
 }
 
 /* NET SALARY */
-.net-section {
-    margin-top: 30px;
+.net-salary {
+    margin-top: 35px;
     text-align: right;
-    font-size: 20px;
+}
+
+.net-text {
+    font-size: 18px;
     font-weight: 600;
     color: #1a73e8;
 }
 
 .net-amount {
-    font-size: 26px;
-    font-weight: 700;
-    margin-left: 10px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #0d47a1;
+    margin-top: 5px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .card {
+        padding: 25px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .salary-table th,
+    .salary-table td {
+        padding: 12px;
+    }
+
+    .line {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .line strong {
+        margin-top: 3px;
+    }
 }
 
 /* PRINT STYLING */
 @media print {
-    body { background: #fff; padding: 0; }
-    .card { box-shadow: none; border: none; }
+    body {
+        background: white;
+        padding: 0;
+    }
+    .card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+    .greeting-banner {
+        display: none;
+    }
 }
