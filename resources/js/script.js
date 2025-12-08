@@ -1,8 +1,8 @@
 /* ------------------------------------------------------
-   TIME GREETING SYSTEM
+   TIME-BASED GREETING
 ---------------------------------------------------------*/
 
-// Returns a greeting based on current hour
+// Returns greeting text based on current hour
 function getTimeBasedGreeting(date = new Date()) {
     const hour = date.getHours();
 
@@ -11,23 +11,24 @@ function getTimeBasedGreeting(date = new Date()) {
     return "Good Evening";
 }
 
-// Immediately log greeting to console
-(function () {
+// Log to console instantly
+(() => {
     console.log(`${getTimeBasedGreeting()}, viewing payslip!`);
 })();
 
 /* ------------------------------------------------------
-   UI GREETING DISPLAY
+   GREETING UI DISPLAY
 ---------------------------------------------------------*/
 
-// Smooth fade-in animation for greeting text
+// Smooth fade-in animation
 function fadeInElement(el, duration = 500) {
+    if (!el) return;
     el.style.opacity = 0;
     el.style.transition = `opacity ${duration}ms ease`;
     requestAnimationFrame(() => (el.style.opacity = 1));
 }
 
-// Inserts greeting text inside a UI container
+// Inserts greeting text into banner area
 function displayGreeting(elementId) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -37,16 +38,13 @@ function displayGreeting(elementId) {
 }
 
 /* ------------------------------------------------------
-   NOTIFICATION POPUP
+   SIMPLE NOTIFICATION BANNER (Optional)
 ---------------------------------------------------------*/
 
 function showNotification(message, duration = 3000) {
     const banner = document.createElement("div");
     banner.classList.add("notification-banner");
 
-    banner.textContent = message;
-
-    // Set styles via JS (kept minimal)
     Object.assign(banner.style, {
         position: "fixed",
         top: "20px",
@@ -63,12 +61,13 @@ function showNotification(message, duration = 3000) {
         transition: "opacity 0.3s ease"
     });
 
+    banner.textContent = message;
     document.body.appendChild(banner);
 
     // Fade in
     requestAnimationFrame(() => (banner.style.opacity = "1"));
 
-    // Remove after duration
+    // Fade out + remove
     setTimeout(() => {
         banner.style.opacity = "0";
         setTimeout(() => banner.remove(), 300);
@@ -76,13 +75,13 @@ function showNotification(message, duration = 3000) {
 }
 
 /* ------------------------------------------------------
-   AUTO EXECUTION ON PAGE LOAD
+   AUTO INITIALIZATION
 ---------------------------------------------------------*/
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Auto-greeting inside the page
+    // Place greeting inside greeting banner
     displayGreeting("greeting-banner");
 
-    // Optional popup notification (comment out if not needed)
+    // Optional: comment out if not needed
     // showNotification("Payslip loaded successfully!");
 });

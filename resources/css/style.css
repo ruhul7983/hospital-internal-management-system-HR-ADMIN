@@ -23,7 +23,7 @@ body {
     color: #1a73e8;
 }
 
-/* CARD (MAIN WRAPPER) */
+/* CARD */
 .card {
     max-width: 900px;
     margin: auto;
@@ -93,54 +93,55 @@ body {
     color: #2d3436;
 }
 
-/* SALARY TABLE */
+/* SALARY SECTION */
 .salary-section {
     margin-top: 35px;
 }
 
 .table-wrapper {
-    margin-top: 15px;
+    padding: 25px;
+    background: #f9fafc;
     border: 1px solid #e0e6ed;
     border-radius: 14px;
-    overflow: hidden;
 }
 
+.salary-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* TABLES */
 .salary-table {
     width: 100%;
     border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
-.salary-table th {
+.salary-table thead th {
     background: #f4f7fb;
-    font-size: 16px;
     padding: 14px;
-    text-align: left;
+    font-size: 16px;
     font-weight: 700;
     color: #2b3a4a;
+    border-bottom: 1px solid #e0e6ed;
 }
 
 .salary-table td {
-    padding: 18px;
-    vertical-align: top;
+    padding: 14px;
     font-size: 15px;
+    border-bottom: 1px solid #eef2f6;
 }
 
-.line {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    font-size: 15px;
-    color: #2d3436;
-}
-
-.line strong {
-    font-weight: 700;
+.salary-table tr:last-child td {
+    border-bottom: none;
 }
 
 /* NET SALARY */
 .net-salary {
     margin-top: 35px;
-    text-align: right;
+    text-align: center;
 }
 
 .net-text {
@@ -150,10 +151,10 @@ body {
 }
 
 .net-amount {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
     color: #0d47a1;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
 /* RESPONSIVE */
@@ -166,22 +167,12 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .salary-table th,
-    .salary-table td {
-        padding: 12px;
-    }
-
-    .line {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .line strong {
-        margin-top: 3px;
+    .salary-columns {
+        grid-template-columns: 1fr;
     }
 }
 
-/* PRINT STYLING */
+/* PRINT */
 @media print {
     body {
         background: white;
