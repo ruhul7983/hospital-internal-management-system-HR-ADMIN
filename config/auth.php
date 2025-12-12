@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'super_admin' => [          // This matches Auth::guard('super_admin')
+            'driver' => 'session',
+            'provider' => 'super_admins',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'super_admins' => [         // This matches the 'provider' => 'super_admins' above
+            'driver' => 'eloquent',
+            'model' => App\Models\SuperAdmin::class, // Points to your Model
         ],
 
         // 'users' => [

@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ShiftController;
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\DutyManagementController;
+
 Route::get('/dashboard', function () {
     return view('admin.pages.dashboard');
 })->name('admin.dashboard');
@@ -17,27 +22,50 @@ Route::get("/dashboard/hospital/edit", function () {
 })->name("admin.pages.setup.hospital.edit");
 
 // Shifts Management Routes
-Route::get("/dashboard/shifts", function () {
-    return view("admin.pages.setup.shifts.index");
-})->name("admin.pages.setup.shifts.index");
-Route::get("/dashboard/shifts/create", function () {
-    return view("admin.pages.setup.shifts.create");
-})->name("admin.pages.setup.shifts.create");
-Route::get("/dashboard/shifts/edit", function () {
-    return view("admin.pages.setup.shifts.edit");
-})->name("admin.pages.setup.shifts.edit");
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/shifts')->name('admin.pages.setup.shifts.')->group(function () {
+    
+    // index (GET /dashboard/shifts)
+    Route::get('/', [ShiftController::class, 'index'])->name('index');
+
+    // create (GET /dashboard/shifts/create)
+    Route::get('/create', [ShiftController::class, 'create'])->name('create');
+    
+    // store (POST /dashboard/shifts/store)
+    Route::post('/', [ShiftController::class, 'store'])->name('store');
+    
+    // edit (GET /dashboard/shifts/{shift}/edit)
+    Route::get('/{shift}/edit', [ShiftController::class, 'edit'])->name('edit');
+
+    // update (PUT/PATCH /dashboard/shifts/{shift})
+    Route::put('/{shift}', [ShiftController::class, 'update'])->name('update');
+
+    // destroy (DELETE /dashboard/shifts/{shift})
+    Route::delete('/{shift}', [ShiftController::class, 'destroy'])->name('delete');
+});
 
 
 // Departments Management Routes
-Route::get("/dashboard/departments", function () {
-    return view("admin.pages.setup.departments.index");
-})->name("admin.pages.setup.departments.index");
-Route::get("/dashboard/departments/create", function () {
-    return view("admin.pages.setup.departments.create");
-})->name("admin.pages.setup.departments.create");
-Route::get("/dashboard/departments/edit", function () {
-    return view("admin.pages.setup.departments.edit");
-})->name("admin.pages.setup.departments.edit");
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/departments')->name('admin.pages.setup.departments.')->group(function () {
+    
+    // index (GET /dashboard/departments)
+    Route::get('/', [DepartmentController::class, 'index'])->name('index');
+
+    // create (GET /dashboard/departments/create)
+    Route::get('/create', [DepartmentController::class, 'create'])->name('create');
+    
+    // store (POST /dashboard/departments)
+    Route::post('/', [DepartmentController::class, 'store'])->name('store');
+    
+    // edit (GET /dashboard/departments/{department}/edit)
+    // Note: Laravel can automatically find the Department model if the route variable matches the type-hint name
+    Route::get('/{department}/edit', [DepartmentController::class, 'edit'])->name('edit');
+
+    // update (PUT/PATCH /dashboard/departments/{department})
+    Route::put('/{department}', [DepartmentController::class, 'update'])->name('update');
+
+    // destroy (DELETE /dashboard/departments/{department})
+    Route::delete('/{department}', [DepartmentController::class, 'destroy'])->name('delete');
+});
 
 // Overtime managements
 Route::get("/dashboard/overtimes", function () {
@@ -51,22 +79,48 @@ Route::get("/dashboard/overtimes/edit", function () {
 })->name("admin.pages.setup.overtimes.edit");
 
 
-// Employees managements
-Route::get("/dashboard/employees", function () {
-    return view("admin.pages.employees.index");
-})->name("admin.pages.employees.index");
-Route::get("/dashboard/employees/create", function () {
-    return view("admin.pages.employees.create");
-})->name("admin.pages.employees.create");
-Route::get("/dashboard/employees/edit", function () {
-    return view("admin.pages.employees.edit");
-})->name("admin.pages.employees.edit");
+
+
+// Employee Management (Scoped by auth:web and role:admin)
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/employees')->name('admin.pages.employees.')->group(function () {
+    
+    // R E A D (Index)
+    // GET /dashboard/employees
+    Route::get('/', [EmployeeController::class, 'index'])->name('index'); 
+    
+    // C R E A T E
+    // GET /dashboard/employees/create
+    Route::get('/create', [EmployeeController::class, 'create'])->name('create');
+    // POST /dashboard/employees
+    Route::post('/', [EmployeeController::class, 'store'])->name('store');
+    
+    // U P D A T E
+    // GET /dashboard/employees/{employee}/edit
+    Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])->name('edit');
+    // PUT/PATCH /dashboard/employees/{employee}
+    Route::put('/{employee}', [EmployeeController::class, 'update'])->name('update');
+    
+    // D E L E T E
+    // DELETE /dashboard/employees/{employee}
+    Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('delete');
+
+    // C U S T O M  A C T I O N
+    // PATCH /dashboard/employees/{user}/toggle-status
+    // NOTE: This uses the User ID to target the 'is_active' column on the users table.
+    Route::patch('/{user}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('toggleStatus');
+});
 
 // Duty managements
-
-Route::get("/dashboard/duty-management", function () {
-    return view("admin.pages.duty-management.index");
-})->name("admin.pages.duty-management.index");
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/duty-management')->name('admin.pages.duty-management.')->group(function () {
+    
+    // R E A D (Index/Filter)
+    // GET /dashboard/duty-management
+    Route::get('/', [DutyManagementController::class, 'index'])->name('index');
+    
+    // C R E A T E / U P D A T E (Bulk Save)
+    // POST /dashboard/duty-management
+    Route::post('/', [DutyManagementController::class, 'bulkStore'])->name('bulkStore');
+});
 
 Route::get("/dashboard/leave-management", function () {
     return view("admin.pages.leave-management.index");

@@ -8,7 +8,7 @@
   </div>
 
   <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
-    <form method="POST" action="#" class="p-6 space-y-6">
+    <form method="POST" action="{{ route('admin.pages.setup.shifts.store') }}" class="p-6 space-y-6">
       @csrf
 
       {{-- Shift Name --}}
@@ -18,9 +18,9 @@
           id="name"
           name="name"
           type="text"
-          class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('name') border-red-500 @enderror"
           placeholder="e.g., Morning A"
-          value="{{ old('name', $template->name ?? '') }}"
+          value="{{ old('name') }}"
           required
         />
         @error('name')
@@ -36,8 +36,8 @@
             id="start_time"
             name="start_time"
             type="time"
-            class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            value="{{ old('start_time', $template->start_time ?? '') }}"
+            class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('start_time') border-red-500 @enderror"
+            value="{{ old('start_time') }}"
             required
           />
           @error('start_time')
@@ -51,8 +51,8 @@
             id="end_time"
             name="end_time"
             type="time"
-            class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-            value="{{ old('end_time', $template->end_time ?? '') }}"
+            class="mt-1 block py-1 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('end_time') border-red-500 @enderror"
+            value="{{ old('end_time') }}"
             required
           />
           @error('end_time')
@@ -67,11 +67,11 @@
         <select
           id="actor"
           name="actor"
-          class="mt-1 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          class="mt-1 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('actor') border-red-500 @enderror"
           required
         >
           @php
-            $actorOld = old('actor', $template->actor ?? '');
+            $actorOld = old('actor');
           @endphp
           <option value="" disabled {{ $actorOld ? '' : 'selected' }}>Select role</option>
           <option value="Doctor" {{ $actorOld === 'Doctor' ? 'selected' : '' }}>Doctor</option>
@@ -92,14 +92,14 @@
           type="number"
           min="0"
           step="5"
-          class="mt-1 block py-1 w-40 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          class="mt-1 block py-1 w-40 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 @error('break_minutes') border-red-500 @enderror"
           placeholder="e.g., 30"
-          value="{{ old('break_minutes', $template->break_minutes ?? 30) }}"
+          value="{{ old('break_minutes', 30) }}"
         />
         @error('break_minutes')
           <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
-        <p class="mt-1 text-xs text-gray-500">For multiple breaks, store the total minutes or extend your model to capture ranges.</p>
+        <p class="mt-1 text-xs text-gray-500">For multiple breaks, store the total minutes.</p>
       </div>
 
       {{-- Cross Mid Night Shifts --}}
@@ -110,7 +110,7 @@
             name="crosses_midnight"
             value="1"
             class="rounded py-1 border-gray-300 text-blue-600 focus:ring-blue-500"
-            @checked(old('crosses_midnight', $template->crosses_midnight ?? false))
+            @checked(old('crosses_midnight'))
           />
           <span class="text-sm font-medium text-gray-800">Cross Mid Night Shifts</span>
         </label>
@@ -124,7 +124,7 @@
 
       {{-- Actions --}}
       <div class="flex items-center justify-end gap-3 pt-4">
-        <a href="#"
+        <a href="{{ route('admin.pages.setup.shifts.index') }}"
            class="inline-flex items-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
           Cancel
         </a>
