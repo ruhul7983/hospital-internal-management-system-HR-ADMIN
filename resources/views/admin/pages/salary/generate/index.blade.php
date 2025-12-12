@@ -45,7 +45,7 @@
 
         <div class="p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div class="text-sm text-gray-500">Total Net Pay ({{ $stats['period'] }})</div>
-            <div class="text-2xl font-semibold mt-1">₹ {{ number_format($stats['total_salary'], 0) }}</div>
+            <div class="text-2xl font-semibold mt-1">TK. {{ number_format($stats['total_salary'], 0) }}</div>
         </div>
 
         <div class="p-5 bg-white rounded-xl border border-gray-200 shadow-sm">
@@ -89,8 +89,8 @@
                             {{ $record->user->name }}
                         </td>
 
-                        <td class="px-5 py-3">₹ {{ number_format($record->gross_salary, 2) }}</td>
-                        <td class="px-5 py-3 font-semibold">₹ {{ number_format($record->net_pay, 2) }}</td>
+                        <td class="px-5 py-3">TK. {{ number_format($record->gross_salary, 2) }}</td>
+                        <td class="px-5 py-3 font-semibold">TK. {{ number_format($record->net_pay, 2) }}</td>
 
                         <td class="px-5 py-3">
                             <span class="px-3 py-1 text-xs rounded-full {{ $statusClass }}">{{ $record->status }}</span>

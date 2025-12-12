@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\AttendanceController;
 use App\Http\Controllers\User\LeaveManagementController;
+use App\Http\Controllers\User\SalaryController;
 
 Route::middleware(['auth:web', 'role:Doctor,Nurse,Staff'])->prefix('user')->name('user.')->group(function () {
     
@@ -37,6 +38,11 @@ Route::middleware(['auth:web', 'role:Doctor,Nurse,Staff'])->prefix('user')->name
 });
 
 
-Route::get('/user/dashboard/salary/index', function () {
-    return view('user.pages.salary.index');
-})->name('user.salary.index');
+Route::middleware(['auth:web', 'role:Doctor,Nurse,Staff'])->prefix('user/dashboard/salary')->name('user.salary.')->group(function () {
+    
+    // GET /user/dashboard/salary/index
+    Route::get('/index', [SalaryController::class, 'index'])->name('index');
+    
+    // Optional: View payslip details route could be added here
+    // Route::get('/{payrollRecord}/view', [SalaryController::class, 'show'])->name('show');
+});

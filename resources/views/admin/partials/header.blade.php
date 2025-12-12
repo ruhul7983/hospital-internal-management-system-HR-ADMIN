@@ -37,7 +37,7 @@
                         <i class="fa-solid fa-gear"></i> Settings
                     </a>
                     <div class="h-px bg-slate-200"></div>
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('super-admin.logout') }}">
                         @csrf
                         <button type="submit" class="w-full text-left px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 flex items-center gap-2">
                             <i class="fa-solid fa-right-from-bracket"></i> Sign out

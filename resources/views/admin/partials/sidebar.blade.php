@@ -23,7 +23,7 @@
                     {{-- <a href={{ route("admin.pages.setup.hospital.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Hospital</a> --}}
                     <a href={{ route("admin.pages.setup.shifts.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Shifts</a>
                     <a href={{ route("admin.pages.setup.departments.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Departments</a>
-                    <a href={{ route("admin.pages.setup.overtimes.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Overtimes</a>
+                    {{-- <a href={{ route("admin.pages.setup.overtimes.index") }} class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Overtimes</a> --}}
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
             </div>
 
             {{-- Settings (Nested) --}}
-            <div class="nav-group">
+            {{-- <div class="nav-group">
                 <button class="nav-trigger w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
                         aria-expanded="false" aria-controls="group-settings">
                     <span class="flex items-center gap-3">
@@ -97,7 +97,7 @@
                     <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Roles & Permissions</a>
                     <a href="#" class="block px-2 py-1.5 rounded-md text-sm text-gray-700 hover:bg-gray-100">Preferences</a>
                 </div>
-            </div>
+            </div> --}}
         </nav>
     </div>
 </aside>
