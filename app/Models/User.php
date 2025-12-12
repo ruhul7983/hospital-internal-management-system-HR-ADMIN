@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+// === CRITICAL FIXES: Import the Relationship Types ===
+use Illuminate\Database\Eloquent\Relations\HasOne; 
+use Illuminate\Database\Eloquent\Relations\HasMany; 
+// ====================================================
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -17,6 +21,7 @@ class User extends Authenticatable
         'password',
         'role',
         'hospital_id',
+        'is_active', // Assuming you added this in a previous migration/step
     ];
 
     protected $hidden = [
@@ -29,9 +34,11 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            // Assuming you added is_active to casts, if not, skip this line:
+            'is_active' => 'boolean', 
         ];
     }
-    
+
     /**
      * Get the hospital that owns the user (for admin/staff).
      */
@@ -39,8 +46,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Hospital::class);
     }
-    public function employee()
+
+    /**
+     * Get the employee profile (one-to-one relationship).
+     */
+    public function employee(): HasOne 
     {
         return $this->hasOne(Employee::class);
+    }
+
+    /**
+     * Get the custom salary components assigned to this user (one-to-many relationship).
+     */
+    public function employeeSalaryHead(): HasMany 
+    {
+        return $this->hasMany(EmployeeSalaryHead::class);
     }
 }

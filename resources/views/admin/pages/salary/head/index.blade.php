@@ -11,75 +11,78 @@
             Add Salary Head
         </a>
     </div>
+    
+    @if (session('success'))
+        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-md">{{ session('error') }}</div>
+    @endif
 
     <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-        <table class="w-full text-left">
-            <thead>
-                <tr class="bg-gray-50 text-gray-600 text-sm">
-                    <th class="px-5 py-3 font-medium">Name</th>
-                    <th class="px-5 py-3 font-medium">Type</th>
-                    <th class="px-5 py-3 font-medium">Calculation Type</th>
-                    <th class="px-5 py-3 font-medium">Multiplier/Percentage</th>
-                    <th class="px-5 py-3 font-medium">Set as Basic</th>
-                    <th class="px-5 py-3 font-medium">Editable per User</th>
-                    <th class="px-5 py-3 font-medium text-right">Actions</th>
-                </tr>
-            </thead>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-600 text-sm">
+                        <th class="px-5 py-3 font-medium">Name</th>
+                        <th class="px-5 py-3 font-medium">Type</th>
+                        <th class="px-5 py-3 font-medium">Calculation Type</th>
+                        <th class="px-5 py-3 font-medium">Multiplier/Percentage</th>
+                        <th class="px-5 py-3 font-medium">Set as Basic</th>
+                        <th class="px-5 py-3 font-medium">Editable per User</th>
+                        <th class="px-5 py-3 font-medium text-right">Actions</th>
+                    </tr>
+                </thead>
 
-            <tbody class="text-gray-800 text-sm">
+                <tbody class="text-gray-800 text-sm divide-y divide-gray-100">
 
-                {{-- Row Example --}}
-                <tr class="border-t">
-                    <td class="px-5 py-3">Basic Salary</td>
-                    <td class="px-5 py-3">Earning</td>
-                    <td class="px-5 py-3">Fixed</td>
-                    <td class="px-5 py-3">10000</td>
-                    <td class="px-5 py-3"><input type="checkbox" checked></td>
-                    <td class="px-5 py-3"><input type="checkbox"></td>
+                    @forelse ($heads as $head)
+                        @php
+                            $isBasicClass = $head->is_basic ? 'bg-indigo-50 font-bold text-indigo-700' : '';
+                            $isPercentage = $head->calculation_type === 'Percentage';
+                        @endphp
+                        <tr class="{{ $isBasicClass }}">
+                            <td class="px-5 py-3">{{ $head->name }}</td>
+                            <td class="px-5 py-3">{{ $head->type }}</td>
+                            <td class="px-5 py-3">{{ $head->calculation_type }}</td>
+                            <td class="px-5 py-3">{{ $isPercentage ? ($head->value * 100) . '%' : number_format($head->value, 2) }}</td>
+                            <td class="px-5 py-3">
+                                <input type="checkbox" {{ $head->is_basic ? 'checked' : '' }} disabled
+                                       class="h-4 w-4 rounded border-gray-300 text-blue-600">
+                            </td>
+                            <td class="px-5 py-3">
+                                <input type="checkbox" {{ $head->is_editable ? 'checked' : '' }} disabled
+                                       class="h-4 w-4 rounded border-gray-300 text-blue-600">
+                            </td>
 
-                    <td class="px-5 py-3">
+                            <td class="px-5 py-3">
+                                <div class="flex justify-end items-center gap-2">
+                                    {{-- Edit --}}
+                                    <a href="{{ route('admin.salary.head.edit', $head->id) }}"
+                                        class="px-2 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors">
+                                        edit
+                                    </a>
 
-                        <div class="flex justify-end items-center gap-2">
-                            {{-- Edit --}}
-                            <a href="{{ route('admin.salary.head.edit', 1) }}"
-                                class="px-2 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded">
-                                edit
-                            </a>
-
-                            {{-- Delete --}}
-                            <form>
-                                <button type="button"
-                                    class="px-2 py-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded">
-                                    delete
-                                </button>
-                            </form>
-                        </div>
-
-                    </td>
-                </tr>
-
-                {{-- Duplicate Example Rows Below --}}
-                <tr class="border-t">
-                    <td class="px-5 py-3">House Rent Allowance</td>
-                    <td class="px-5 py-3">Allowance</td>
-                    <td class="px-5 py-3">Percentage</td>
-                    <td class="px-5 py-3">40%</td>
-                    <td class="px-5 py-3"><input type="checkbox"></td>
-                    <td class="px-5 py-3"><input type="checkbox" checked></td>
-                    <td class="px-5 py-3">
-                        <div class="flex justify-end items-center gap-2">
-                            <a href="{{ route('admin.salary.head.edit', 2) }}"
-                                class="px-2 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded">edit</a>
-                            <button type="button"
-                                class="px-2 py-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded">delete</button>
-                        </div>
-                    </td>
-                </tr>
-
-           
-
-            </tbody>
-        </table>
+                                    {{-- Delete --}}
+                                    <form action="{{ route('admin.salary.head.delete', $head->id) }}" method="POST" onsubmit="return confirm('WARNING: Deleting {{ $head->name }}. Are you sure?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="px-2 py-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors">
+                                            delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-5 py-10 text-center text-gray-500">No salary heads configured yet.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection

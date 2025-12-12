@@ -18,6 +18,10 @@
             </a>
         </div>
     </div>
+    
+    @if (session('success'))
+        <div class="max-w-full mx-auto mb-4 p-3 bg-green-100 text-green-700 rounded-lg shadow-sm">{{ session('success') }}</div>
+    @endif
 
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -32,74 +36,64 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th scope="col" class="relative px-6 py-3">
-                                    <span class="sr-only">Edit</span>
+                                    <span class="sr-only">Actions</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{-- Example Loop: Replace with @foreach($leaves as $leave) --}}
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">Sick Leave</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Nov 25, 2025</div>
-                                    <div class="text-xs text-gray-500">to Nov 26, 2025</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    2 Days
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-gray-900 truncate w-48">Feeling unwell due to seasonal flu.</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        Pending
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">Casual Leave</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Oct 10, 2025</div>
-                                    <div class="text-xs text-gray-500">to Oct 12, 2025</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    3 Days
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-gray-900 truncate w-48">Family vacation trip.</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Approved
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                </td>
-                            </tr>
-                             {{-- @endforeach --}}
+                            @forelse ($leaveRequests as $request)
+                                @php
+                                    $statusClass = match ($request->status) {
+                                        'Approved' => 'bg-green-100 text-green-800',
+                                        'Rejected' => 'bg-red-100 text-red-800',
+                                        default => 'bg-yellow-100 text-yellow-800',
+                                    };
+                                    // +1 day because diffInDays excludes the end day
+                                    $duration = $request->start_date->diffInDays($request->end_date) + 1; 
+                                @endphp
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ Str::title($request->type) }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $request->start_date->format('M d, Y') }}</div>
+                                        <div class="text-xs text-gray-500">to {{ $request->end_date->format('M d, Y') }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $duration }} Day{{ $duration > 1 ? 's' : '' }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900 truncate max-w-xs" title="{{ $request->reason }}">
+                                            {{ Str::limit($request->reason, 40) }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                            {{ $request->status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900" 
+                                           onclick="alert('Details for Request ID: {{ $request->id }}\nReason: {{ $request->reason }}')">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-10 text-center text-gray-500">
+                                        No leave requests found. Click "Apply for Leave" to submit one.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
-                    
-                    {{-- 
-                    <div class="text-center py-10">
-                        <p class="text-gray-500">No leave history found.</p>
-                    </div>
-                    --}}
                 </div>
             </div>
         </div>
         
         <div class="mt-4">
-            {{-- {{ $leaves->links() }} --}}
+            {{-- Placeholder for pagination, if you implement it --}}
         </div>
     </div>
 </div>

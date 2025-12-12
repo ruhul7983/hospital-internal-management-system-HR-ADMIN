@@ -8,52 +8,48 @@
             
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Attendance History</h1>
-                <p class="mt-1 text-sm text-gray-500">View your check-in and check-out times.</p>
+                <p class="mt-1 text-sm text-gray-500">Viewing {{ $months[$currentMonth] }} {{ $currentYear }} (Total Working Days: {{ $metrics['working_days'] }})</p>
             </div>
 
-            <div class="bg-white p-1.5 rounded-xl shadow-sm border border-gray-200 flex items-center space-x-2">
+            {{-- Month/Year Filter Form --}}
+            <form method="GET" action="{{ route('user.attendance.index') }}" class="bg-white p-1.5 rounded-xl shadow-sm border border-gray-200 flex items-center space-x-2">
                 
+                {{-- Month Select --}}
                 <div class="relative">
-                    <select class="appearance-none bg-gray-50 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-32 p-2.5 pr-8 font-medium hover:bg-gray-100 transition-colors cursor-pointer">
-                        <option>January</option>
-                        <option>February</option>
-                        <option>March</option>
-                        <option>April</option>
-                        <option>May</option>
-                        <option>June</option>
-                        <option>July</option>
-                        <option>August</option>
-                        <option>September</option>
-                        <option>October</option>
-                        <option selected>November</option>
-                        <option>December</option>
+                    <select name="month" class="appearance-none bg-gray-50 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-32 p-2.5 pr-8 font-medium hover:bg-gray-100 transition-colors cursor-pointer">
+                        @foreach ($months as $key => $name)
+                            <option value="{{ $key }}" @selected($currentMonth == $key)>{{ $name }}</option>
+                        @endforeach
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                 </div>
 
+                {{-- Year Select --}}
                 <div class="relative">
-                    <select class="appearance-none bg-gray-50 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-24 p-2.5 pr-8 font-medium hover:bg-gray-100 transition-colors cursor-pointer">
-                        <option>2024</option>
-                        <option selected>2025</option>
-                        <option>2026</option>
+                    <select name="year" class="appearance-none bg-gray-50 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-24 p-2.5 pr-8 font-medium hover:bg-gray-100 transition-colors cursor-pointer">
+                        @foreach ($years as $yearOption)
+                            <option value="{{ $yearOption }}" @selected($currentYear == $yearOption)>{{ $yearOption }}</option>
+                        @endforeach
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                 </div>
 
-                <button class="bg-indigo-600 text-white p-2.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
+                <button type="submit" class="bg-indigo-600 text-white p-2.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
+    {{-- Metrics Cards --}}
     <div class="max-w-7xl mx-auto mb-8">
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             
+            {{-- Total Working Days --}}
             <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -62,14 +58,15 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Working Days</dt>
-                                <dd class="text-2xl font-bold text-gray-900">22</dd>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Days</dt>
+                                <dd class="text-2xl font-bold text-gray-900">{{ $metrics['working_days'] }}</dd>
                             </dl>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- Days Present --}}
             <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -79,13 +76,14 @@
                         <div class="ml-5 w-0 flex-1">
                             <dl>
                                 <dt class="text-sm font-medium text-gray-500 truncate">Days Present</dt>
-                                <dd class="text-2xl font-bold text-gray-900">18</dd>
+                                <dd class="text-2xl font-bold text-gray-900">{{ $metrics['days_present'] }}</dd>
                             </dl>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- Late Arrivals --}}
             <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -95,14 +93,15 @@
                         <div class="ml-5 w-0 flex-1">
                             <dl>
                                 <dt class="text-sm font-medium text-gray-500 truncate">Late Arrivals</dt>
-                                <dd class="text-2xl font-bold text-gray-900">3</dd>
+                                <dd class="text-2xl font-bold text-gray-900">{{ $metrics['late_arrivals'] }}</dd>
                             </dl>
                         </div>
                     </div>
                 </div>
             </div>
 
-             <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
+            {{-- Days Absent --}}
+            <div class="bg-white overflow-hidden shadow-sm rounded-2xl border border-gray-100">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 bg-red-50 rounded-md p-3">
@@ -110,8 +109,8 @@
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Absent</dt>
-                                <dd class="text-2xl font-bold text-gray-900">1</dd>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Days Absent</dt>
+                                <dd class="text-2xl font-bold text-gray-900">{{ $metrics['days_absent'] }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -120,6 +119,7 @@
         </div>
     </div>
 
+    {{-- Attendance Table --}}
     <div class="max-w-7xl mx-auto">
         <div class="bg-white shadow-xl rounded-2xl border border-gray-100 overflow-hidden">
             
@@ -128,150 +128,76 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Check In</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Check Out</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Check In (BST)</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Check Out (BST)</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Working Hours</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Duty</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-100">
                         
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-gray-900">25 Nov, 2025</span>
-                                    <span class="text-xs text-gray-500">Tuesday</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                09:00 AM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                06:00 PM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                9 hrs
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-700 border border-green-200">
-                                    Present
-                                </span>
-                            </td>
-                             <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-900 cursor-pointer">
-                                Details
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-gray-900">24 Nov, 2025</span>
-                                    <span class="text-xs text-gray-500">Monday</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                <span class="text-red-500 font-medium">09:45 AM</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                06:30 PM
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                8 hrs 45 mins
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200">
-                                    Late
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-900 cursor-pointer">
-                                Details
-                            </td>
-                        </tr>
-
-                         <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-gray-900">23 Nov, 2025</span>
-                                    <span class="text-xs text-gray-500">Sunday</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                -- : --
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                -- : --
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                0 hrs
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700 border border-red-200">
-                                    Absent
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-900 cursor-pointer">
-                                Details
-                            </td>
-                        </tr>
-
-                        <tr class="bg-gray-50/50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-bold text-gray-500">22 Nov, 2025</span>
-                                    <span class="text-xs text-gray-400">Saturday</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                --
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                --
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                --
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600 border border-gray-200">
-                                    Weekend
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                        @forelse ($attendances as $record)
+                            @php
+                                $checkIn = $record->check_in_at->setTimezone('Asia/Dhaka');
+                                $checkOut = $record->check_out_at ? $record->check_out_at->setTimezone('Asia/Dhaka') : null;
                                 
-                            </td>
-                        </tr>
+                                $workingHours = 'N/A';
+                                $isLate = ($checkIn->hour >= 9 && $checkIn->minute > 0); // Example late check: After 9:00 AM
+                                $statusClass = $isLate ? 'bg-yellow-100 text-yellow-700 border-yellow-200' : 'bg-green-100 text-green-700 border-green-200';
+                                $statusText = $isLate ? 'Late' : 'Present';
+
+                                if ($checkOut) {
+                                    $interval = $checkIn->diff($checkOut);
+                                    $workingHours = $interval->format('%h hrs %i mins');
+                                } else {
+                                    $statusText = 'In Progress';
+                                    $statusClass = 'bg-blue-100 text-blue-700 border-blue-200';
+                                }
+                            @endphp
+                            
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-bold text-gray-900">{{ $checkIn->format('d M, Y') }}</span>
+                                        <span class="text-xs text-gray-500">{{ $checkIn->format('l') }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    <span class="{{ $isLate ? 'text-red-500 font-medium' : '' }}">{{ $checkIn->format('h:i A') }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    {{ $checkOut ? $checkOut->format('h:i A') : '— —' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    {{ $workingHours }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }} border">
+                                        {{ $statusText }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-900 cursor-pointer">
+                                    {{ $record->duty_assignment_id ? 'View Details' : 'N/A' }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-10 text-center text-gray-500">No attendance records found for {{ $months[$currentMonth] }} {{ $currentYear }}.</td>
+                            </tr>
+                        @endforelse
+                        
+                        {{-- Placeholder for missing days (Outside of loop) --}}
+                        {{-- NOTE: Calculating truly absent days dynamically requires comparing shifts/holidays, complex for this method. --}}
 
                     </tbody>
                 </table>
             </div>
             
+            {{-- Pagination Placeholder --}}
             <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <p class="text-sm text-gray-700">
-                            Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">30</span> results
-                        </p>
-                    </div>
-                    <div>
-                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                <span class="sr-only">Previous</span>
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">1</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
-                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                <span class="sr-only">Next</span>
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </nav>
-                    </div>
-                </div>
+                <p class="text-sm text-gray-700">Displaying {{ $attendances->count() }} records.</p>
+                {{-- If you implement pagination, replace the above line with: {{ $attendances->links() }} --}}
             </div>
 
         </div>

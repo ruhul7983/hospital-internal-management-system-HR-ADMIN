@@ -5,6 +5,10 @@ use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\DutyManagementController;
+use App\Http\Controllers\Admin\LeaveManagementController;
+use App\Http\Controllers\Admin\SalaryHeadController;
+use App\Http\Controllers\Admin\SalarySetupController;
+use App\Http\Controllers\Admin\SalaryGenerationController;
 
 Route::get('/dashboard', function () {
     return view('admin.pages.dashboard');
@@ -122,29 +126,56 @@ Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/duty-management
     Route::post('/', [DutyManagementController::class, 'bulkStore'])->name('bulkStore');
 });
 
-Route::get("/dashboard/leave-management", function () {
-    return view("admin.pages.leave-management.index");
-})->name("admin.pages.leave-management.index");
-
+// Leave Management (Admin Side)
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/leave-management')->name('admin.pages.leave-management.')->group(function () {
+    
+    // GET /dashboard/leave-management (Index/List)
+    Route::get('/', [LeaveManagementController::class, 'index'])->name('index');
+    
+    // PATCH /dashboard/leave-management/{leaveRequest}/status (Approve/Reject Action)
+    Route::patch('/{leaveRequest}/status', [LeaveManagementController::class, 'updateStatus'])->name('updateStatus');
+    
+    // Optional: Add a route for viewing details if a dedicated page is needed
+    // Route::get('/{leaveRequest}', [LeaveManagementController::class, 'show'])->name('show');
+});
 
 // Salary Management 
 // Head
-Route::get("/dashboard/salary/head", function () {
-    return view("admin.pages.salary.head.index");
-})->name("admin.salary.head.index");
-Route::get("/dashboard/salary/head/create", function () {
-    return view("admin.pages.salary.head.create");
-})->name("admin.salary.head.create");
-Route::get("/dashboard/salary/head/edit", function () {
-    return view("admin.pages.salary.head.edit");
-})->name("admin.salary.head.edit");
+// Salary Head Management (Admin Side)
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/salary/head')->name('admin.salary.head.')->group(function () {
+    
+    // GET /dashboard/salary/head
+    Route::get('/', [SalaryHeadController::class, 'index'])->name('index');
+    
+    // GET /dashboard/salary/head/create
+    Route::get('/create', [SalaryHeadController::class, 'create'])->name('create');
+    
+    // POST /dashboard/salary/head
+    Route::post('/', [SalaryHeadController::class, 'store'])->name('store');
+    
+    // GET /dashboard/salary/head/{head}/edit
+    Route::get('/{head}/edit', [SalaryHeadController::class, 'edit'])->name('edit');
+    
+    // PUT/PATCH /dashboard/salary/head/{head}
+    Route::put('/{head}', [SalaryHeadController::class, 'update'])->name('update');
+
+    // DELETE /dashboard/salary/head/{head}
+    Route::delete('/{head}', [SalaryHeadController::class, 'destroy'])->name('delete');
+});
 
 
 // Salary Management 
 // Setup
-Route::get("/dashboard/salary/setup", function () {
-    return view("admin.pages.salary.setup.index");
-})->name("admin.salary.setup.index");
+// Salary Setup Management (Admin Side)
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/salary/setup')->name('admin.salary.setup.')->group(function () {
+    
+    // GET /dashboard/salary/setup (Index/List)
+    Route::get('/', [SalarySetupController::class, 'index'])->name('index');
+    
+    // POST /dashboard/salary/setup/{user} (Save setup for selected user)
+    // NOTE: Passing user ID in the action route helps identify the recipient.
+    Route::post('/{user}', [SalarySetupController::class, 'saveSetup'])->name('save');
+});
 // Route::get("/dashboard/salary/head/create", function () {
 //     return view("admin.pages.salary.head.create");
 // })->name("admin.salary.head.create");
@@ -154,6 +185,33 @@ Route::get("/dashboard/salary/setup", function () {
 
 // Salary Management 
 // Setup
-Route::get("/dashboard/salary/generate", function () {
-    return view("admin.pages.salary.generate.index");
-})->name("admin.salary.setup.generate");
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/salary')->name('admin.salary.')->group(function () {
+    
+    // --- Salary Head (Setup Configuration) ---
+    // (Assuming this group uses the prefix 'head' and name 'head.')
+    
+    // --- Salary Setup (Per User Assignment) ---
+    // (Assuming this group uses the prefix 'setup' and name 'setup.')
+
+
+    // =========================================================
+    // FIX: SALARY GENERATION GROUP - Using your desired index name
+    // =========================================================
+    Route::prefix('generate')->group(function () {
+        
+        // 🔑 Index Route (Uses the specific name you provided in your question)
+        // GET /dashboard/salary/generate
+        Route::get('/', [SalaryGenerationController::class, 'index'])->name('setup.generate'); 
+        
+        // POST /dashboard/salary/generate/run (Performs the bulk calculation)
+        // Full name: admin.salary.generate.run
+        Route::post('/run', [SalaryGenerationController::class, 'generate'])->name('generate.run');
+        
+        // PATCH /dashboard/salary/generate/{record}/paid (Mark paid)
+        // Full name: admin.salary.generate.markPaid
+        Route::patch('/{record}/paid', [SalaryGenerationController::class, 'markPaid'])->name('generate.markPaid');
+    });
+
+    // NOTE: If your sidebar used "admin.salary.generate.index" before,
+    // you must now change it to "admin.salary.setup.generate".
+});

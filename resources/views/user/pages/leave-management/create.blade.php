@@ -30,7 +30,7 @@
             </div>
 
             <div class="px-8 py-8">
-                <form action="#" method="POST">
+                <form action="{{ route('user.leave-management.store') }}" method="POST">
                     @csrf
 
                     <div class="grid grid-cols-1 gap-y-8 gap-x-8 sm:grid-cols-2">
@@ -38,12 +38,11 @@
                         <div class="sm:col-span-2">
                             <label for="leave_type" class="block text-sm font-semibold text-gray-700 mb-2">Leave Type</label>
                             <div class="relative">
-                                <select id="leave_type" name="leave_type" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm appearance-none">
+                                <select id="leave_type" name="leave_type" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm appearance-none @error('leave_type') border-red-500 @enderror" required>
                                     <option value="" disabled selected>Select a leave type...</option>
-                                    <option value="casual">Casual Leave</option>
-                                    <option value="sick">Sick Leave</option>
-                                    <option value="emergency">Emergency Leave</option>
-                                    <option value="unpaid">Unpaid Leave</option>
+                                    @foreach ($leaveTypes as $key => $type)
+                                        <option value="{{ $key }}" {{ old('leave_type') == $key ? 'selected' : '' }}>{{ $type }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -59,7 +58,7 @@
 
                         <div class="sm:col-span-1">
                             <label for="start_date" class="block text-sm font-semibold text-gray-700 mb-2">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm">
+                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm @error('start_date') border-red-500 @enderror" required>
                             @error('start_date')
                                 <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                             @enderror
@@ -67,7 +66,7 @@
 
                         <div class="sm:col-span-1">
                             <label for="end_date" class="block text-sm font-semibold text-gray-700 mb-2">End Date</label>
-                            <input type="date" name="end_date" id="end_date" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm">
+                            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm @error('end_date') border-red-500 @enderror" required>
                             @error('end_date')
                                 <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                             @enderror
@@ -76,7 +75,7 @@
                         <div class="sm:col-span-2">
                             <label for="reason" class="block text-sm font-semibold text-gray-700 mb-2">Reason for Leave</label>
                             <div class="mt-1">
-                                <textarea id="reason" name="reason" rows="4" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm resize-none" placeholder="Please describe why you need this leave..."></textarea>
+                                <textarea id="reason" name="reason" rows="4" class="block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200 sm:text-sm resize-none @error('reason') border-red-500 @enderror" placeholder="Please describe why you need this leave..." required>{{ old('reason') }}</textarea>
                             </div>
                             @error('reason')
                                 <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
