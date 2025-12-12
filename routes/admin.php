@@ -215,3 +215,4 @@ Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard/salary')->name(
     // NOTE: If your sidebar used "admin.salary.generate.index" before,
     // you must now change it to "admin.salary.setup.generate".
 });
+// for git
