@@ -49,11 +49,7 @@
                 <i class="fa-solid fa-file-invoice-dollar text-gray-400 group-hover:text-gray-600"></i>
                 <span>Hospital List</span>
             </a>
-            {{-- Subscriptions --}}
-            <a href={{ route("super-admin.subscription.index") }} class="nav-item group flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
-                <i class="fa-solid fa-file-invoice-dollar text-gray-400 group-hover:text-gray-600"></i>
-                <span>Subscription List</span>
-            </a>
+            
             
             </div>
         </nav>

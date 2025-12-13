@@ -40,7 +40,8 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'super_admin' => [          // This matches Auth::guard('super_admin')
+        // 🚨 CRITICAL VERIFICATION 1: Is this spelled exactly 'super_admin'?
+        'super_admin' => [
             'driver' => 'session',
             'provider' => 'super_admins',
         ],
@@ -66,17 +67,14 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
-        'super_admins' => [         // This matches the 'provider' => 'super_admins' above
+        // 🚨 CRITICAL VERIFICATION 2: Is this spelled exactly 'super_admins' 
+        'super_admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\SuperAdmin::class, // Points to your Model
+            // 🚨 CRITICAL VERIFICATION 3: Is this the correct SuperAdmin model path?
+            'model' => App\Models\SuperAdmin::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

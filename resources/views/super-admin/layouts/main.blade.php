@@ -8,7 +8,16 @@
     <title>@yield('title', 'Super Admin Dashboard')</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <style>
+    input{
+        padding-right: 1px;
+        padding-left: 2px;
+        padding-top:2px;
+        padding-bottom: 2px;
+        border:1px solid black;
+        border-radius: 8px;
+    }
+   </style>
     {{-- Font Awesome --}}
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
