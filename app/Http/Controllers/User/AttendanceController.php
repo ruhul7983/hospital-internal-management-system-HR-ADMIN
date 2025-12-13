@@ -8,7 +8,8 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Carbon\CarbonInterval; // Needed for calculating differences
+use Carbon\CarbonInterval; 
+use Carbon\CarbonPeriod; // For iterating dates
 
 class AttendanceController extends Controller
 {
@@ -21,6 +22,9 @@ class AttendanceController extends Controller
         $userId = $user->id;
         $hospitalId = $user->hospital_id;
 
+        // 1. Determine the employee's Start Date from the User model's created_at timestamp
+        $startDateProxy = $user->created_at; 
+        
         // --- 1. Get Month/Year for Filtering (Default to Current Month) ---
         $now = Carbon::now(self::TIMEZONE);
         $month = $request->input('month', $now->month);
@@ -33,15 +37,26 @@ class AttendanceController extends Controller
         if ($year == $now->year && $month == $now->month) {
             $endOfMonth = $now;
         }
+        
+        // --- CRITICAL FIX 1: Adjust $startOfMonth if it precedes the user's creation date ---
+        $startDateForCalculation = $startOfMonth->copy();
+        
+        // If the 1st of the selected month is BEFORE the user's created_at date,
+        // start counting from the created_at date instead.
+        if ($startDateForCalculation->lt($startDateProxy->startOfDay())) {
+             $startDateForCalculation = $startDateProxy->startOfDay();
+        }
 
         // --- 2. Fetch Attendance Records for the Month ---
         $attendances = Attendance::where('user_id', $userId)
+            // Use the original startOfMonth for the query to ensure we catch all records from that month
             ->whereBetween('check_in_at', [$startOfMonth, $endOfMonth])
             ->orderBy('check_in_at', 'desc')
             ->get();
             
         // --- 3. Calculate Monthly Metrics ---
-        $metrics = $this->calculateMetrics($attendances, $startOfMonth, $endOfMonth);
+        // Pass the adjusted start date ($startDateForCalculation)
+        $metrics = $this->calculateMetrics($attendances, $startDateForCalculation, $endOfMonth);
 
         // --- 4. Prepare Variables for Dropdowns ---
         $currentMonth = $month;
@@ -50,42 +65,46 @@ class AttendanceController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = Carbon::create()->month($i)->format('F');
         }
-        $years = range($now->year - 2, $now->year + 1); // e.g., 2023 to 2026
+        $years = range($now->year - 2, $now->year + 1); 
 
         return view('user.pages.attendance.index', compact(
             'attendances', 'metrics', 'months', 'years', 'currentMonth', 'currentYear'
         ));
     }
 
-    private function calculateMetrics($attendances, $startOfMonth, $endOfMonth)
+    private function calculateMetrics($attendances, $startDateForCalculation, $endOfMonth)
     {
-        $workingDaysCount = 0;
         $presentDaysCount = 0;
         $lateArrivalCount = 0;
-        $absentDaysCount = 0;
         
-        // Loop through all days in the month up to the end date
-        $date = $startOfMonth->copy();
-        while ($date->lte($endOfMonth->startOfDay())) { // Use startOfDay to compare dates only
+        // Get unique dates the user was present
+        $presentDates = $attendances->pluck('check_in_at')->map(fn($date) => $date->format('Y-m-d'))->unique();
+        $workingDaysCount = 0;
+        
+        // Iterate only from the adjusted start date up to the end date
+        // This prevents counting days before the user was registered.
+        $period = CarbonPeriod::create($startDateForCalculation->startOfDay(), $endOfMonth->startOfDay());
+
+        foreach ($period as $date) {
             $workingDaysCount++;
-            $date->addDay();
-        }
-        
-        // Calculate based on records
-        foreach ($attendances as $record) {
-            // Check if record has a valid check-in and check-out
-            if ($record->check_out_at) {
+            $dateString = $date->format('Y-m-d');
+
+            if ($presentDates->contains($dateString)) {
                 $presentDaysCount++;
                 
-                // Example: Check for late arrival (requires knowing the expected shift start time)
-                // Since we don't have the expected shift time here, we'll simulate a simple check (e.g., late if checked in after 9 AM)
-                if ($record->check_in_at->setTimezone(self::TIMEZONE)->hour >= 9 && $record->check_in_at->setTimezone(self::TIMEZONE)->minute > 0) {
-                     $lateArrivalCount++;
+                // Late calculation
+                $record = $attendances->first(fn($a) => $a->check_in_at->format('Y-m-d') === $dateString);
+                
+                if ($record && $record->check_out_at) {
+                    // Example: Check for late arrival after 9:00 AM (09:00)
+                    if ($record->check_in_at->setTimezone(self::TIMEZONE)->hour >= 9 && $record->check_in_at->setTimezone(self::TIMEZONE)->minute > 0) {
+                         $lateArrivalCount++;
+                    }
                 }
             }
         }
         
-        // Simple approximation for absent days (total days - present days)
+        // Calculate days absent only for days the user was required to work (i.e., within the calculation period)
         $absentDaysCount = max(0, $workingDaysCount - $presentDaysCount);
 
         return [

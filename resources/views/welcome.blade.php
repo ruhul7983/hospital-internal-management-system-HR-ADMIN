@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hospital Internal Management System</title>
     @vite('resources/css/app.css');
-
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="antialiased text-slate-700">
@@ -35,8 +35,7 @@
                 </nav>
                 <div class="flex items-center gap-2">
                     <a href="/login" class="px-4 py-2 text-sm font-medium rounded-xl hover:bg-slate-100">Login</a>
-                    <a href="/register"
-                        class="px-4 py-2 text-sm font-medium rounded-xl text-white bg-emerald-600 hover:bg-emerald-700">Register</a>
+                    
                 </div>
             </div>
         </div>

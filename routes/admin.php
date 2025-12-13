@@ -9,11 +9,21 @@ use App\Http\Controllers\Admin\LeaveManagementController;
 use App\Http\Controllers\Admin\SalaryHeadController;
 use App\Http\Controllers\Admin\SalarySetupController;
 use App\Http\Controllers\Admin\SalaryGenerationController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AuthController;
 
-Route::get('/dashboard', function () {
-    return view('admin.pages.dashboard');
-})->name('admin.dashboard');
+// Admin Dashboard
+Route::middleware(['auth:web', 'role:admin'])->prefix('dashboard')->name('admin.')->group(function () {
+    
+    // GET /dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // ... (rest of your admin routes)
+});
+Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout'); 
 
+// FIX 2: Add the User Logout Route (as the header might be shared)
+Route::post('user/logout', [AuthController::class, 'logout'])->name('user.logout');
 // Shifts Management Routes
 Route::get("/dashboard/hospital", function () {
     return view("admin.pages.setup.hospital.index");

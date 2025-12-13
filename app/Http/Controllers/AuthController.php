@@ -42,9 +42,9 @@ class AuthController extends Controller
                 case 'admin':
                     return redirect('/dashboard'); // Hospital Admin dashboard
 
-                case 'Doctor':
-                case 'Nurse':
-                case 'Staff':
+                case 'doctor':
+                case 'nurse':
+                case 'staff':
                     return redirect('/user/dashboard'); // General User/Staff dashboard
 
                 default:
@@ -67,7 +67,7 @@ class AuthController extends Controller
     {
         // Explicitly log out from both guards
         Auth::guard('web')->logout();
-        Auth::guard('superadmin')->logout();
+        Auth::guard('super_admin')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
