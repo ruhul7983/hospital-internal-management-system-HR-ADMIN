@@ -31,7 +31,7 @@ The Hospital Internal Management System (HIMS) MVP is a Laravel-based web applic
 | Md Al Fuyad           | 242220005101002     | FR6, FR7               |
 | Md Kamrul Islam       | 242220005101155     | FR4, FR5               |
 | Prokash Bonik         | 242220005101242     | FR2, FR12              |
-| Sudipta Paul          | 242220005101167     | FR10, FR11             |
+| Sudipta Paul          | 242220005101167     | FR09, FR11             |
 
 **SRS Document & Task Sheet**:  
 [Google Sheet - Task Distribution](https://docs.google.com/spreadsheets/d/1TGAcRtqZW-nhRRO0vGzKdbSXwM2B_uw4DRUJ8t-5YWo/edit?usp=sharing)
