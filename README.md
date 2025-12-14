@@ -52,7 +52,7 @@ The Hospital Internal Management System (HIMS) MVP is a Laravel-based web applic
 | FR8       | Leave Approval             | Admin approves/rejects leaves |
 | FR9       | Payroll Calculation        | Auto-compute salary (hourly/monthly) |
 | FR10      | Payslip Generation         | Generate downloadable PDF payslips |
-| FR11      | Reports                    | Export attendance & payroll in CSV/PDF |
+| FR11      | Leave Management Admin     | Admin Leave Request Managment System |
 | FR12      | Setup                      | Configure shifts, departments, overtime |
 
 ---
