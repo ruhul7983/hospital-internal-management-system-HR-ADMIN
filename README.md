@@ -27,7 +27,7 @@ The Hospital Internal Management System (HIMS) MVP is a Laravel-based web applic
 
 | Name                  | ID                  | Tasks                  |
 |-----------------------|---------------------|------------------------|
-| Md Ruhul Amin         | 242220005101245     | FR1, FR3, FR10         |
+| Md Ruhul Amin         | 242220005101245     | FR1, FR3, FR10, FR08   |
 | Md Al Fuyad           | 242220005101002     | FR6, FR7               |
 | Md Kamrul Islam       | 242220005101155     | FR4, FR5               |
 | Prokash Bonik         | 242220005101242     | FR2, FR12              |
