@@ -49,7 +49,7 @@ The Hospital Internal Management System (HIMS) MVP is a Laravel-based web applic
 | FR5       | Clock Out                  | Record work end time |
 | FR6       | Attendance Record          | Auto-calculate daily worked hours |
 | FR7       | Leave Application          | Submit leave requests |
-| FR8       | Leave Approval             | Admin approves/rejects leaves |
+| FR8       | Super Admin                | Super Admin Management System |
 | FR9       | Payroll Calculation        | Auto-compute salary (hourly/monthly) |
 | FR10      | Payslip Generation         | Generate downloadable PDF payslips |
 | FR11      | Leave Management Admin     | Admin Leave Request Managment System |
