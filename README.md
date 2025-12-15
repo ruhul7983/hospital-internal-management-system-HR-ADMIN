@@ -45,8 +45,8 @@ The Hospital Internal Management System (HIMS) MVP is a Laravel-based web applic
 | FR1       | Login                      | Secure user authentication |
 | FR2       | Role-Based Access          | Restricts features by user role |
 | FR3       | Shift Assignment           | Admin assigns daily/monthly shifts |
-| FR4       | Clock In                   | Record work start time |
-| FR5       | Clock Out                  | Record work end time |
+| FR4       | Check In                   | Record work start time |
+| FR5       | Check Out                  | Record work end time |
 | FR6       | Attendance Record          | Auto-calculate daily worked hours |
 | FR7       | Leave Application          | Submit leave requests |
 | FR8       | Super Admin                | Super Admin Management System |
